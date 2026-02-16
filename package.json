@@ -24,6 +24,7 @@
   "repository": "https://github.com/Rizzpect/Portfolio-creator",
   "bugs": "https://github.com/Rizzpect/Portfolio-creator/issues",
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "chalk": "^5.3.0",
     "commander": "^12.1.0",
     "figlet": "^1.7.0",

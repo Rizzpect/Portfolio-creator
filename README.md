@@ -39,6 +39,35 @@ portfolio-creator create -o my-portfolio.md
 portfolio-creator create -i data.json
 ```
 
+## 🤖 AI Mode (NEW!) 🚀
+
+Use Gemini AI to automatically generate your portfolio! Just describe yourself and AI will create a professional README for you.
+
+### Get Your Free Gemini API Key:
+1. Go to [Google AI Studio](https://aistudio.google.com/app/apikey)
+2. Create a new API key (free tier available)
+3. Copy the key
+
+### Usage:
+```bash
+# Create portfolio using AI
+portfolio-creator create --ai
+
+# Then enter:
+# - Your Gemini API Key
+# - Your GitHub username  
+# - A description about yourself
+```
+
+### Example Prompt:
+```
+I am a full stack developer who loves React and Node.js. 
+I have built several web apps including an e-commerce platform 
+and a task management tool. I also contribute to open source.
+```
+
+The AI will generate a unique, professional portfolio based on your input!
+
 ## Example Output 📄
 
 The tool generates a portfolio like this:

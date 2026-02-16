@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+import { generateAIPortfolio } from './ai/generator.js';
+import inquirer from 'inquirer';
 import { Command } from 'commander';
 import chalk from 'chalk';
 import figlet from 'figlet';
@@ -33,10 +35,46 @@ export async function main() {
     .description('Create a new portfolio')
     .option('-o, --output <path>', 'Output file path', 'README.md')
     .option('-i, --input <path>', 'Input JSON file with portfolio data')
+    .option('-a, --ai', 'Use AI to generate portfolio (requires Gemini API key)')
     .action(async (options) => {
       try {
         let userData;
         
+        // AI Mode
+        if (options.ai) {
+          const aiAnswers = await inquirer.prompt([
+            {
+              type: 'password',
+              name: 'apiKey',
+              message: '🔑 Enter your Gemini API Key:',
+              validate: (input) => input.trim().length > 0 || 'API Key is required'
+            },
+            {
+              type: 'input',
+              name: 'username',
+              message: '🐙 Enter your GitHub username:',
+              validate: (input) => input.trim().length > 0 || 'GitHub username is required'
+            },
+            {
+              type: 'input',
+              name: 'prompt',
+              message: '📝 Tell us about yourself (your skills, projects, what you do):',
+              validate: (input) => input.trim().length > 0 || 'Please tell us about yourself'
+            }
+          ]);
+          
+          // Generate with AI
+          const markdown = await generateAIPortfolio(aiAnswers.apiKey, aiAnswers.prompt, aiAnswers.username);
+          
+          // Save to file
+          await savePortfolio(markdown, options.output);
+          
+          console.log(chalk.green(`\n✅ AI Portfolio created successfully!`));
+          console.log(chalk.yellow(`📄 Output: ${options.output}\n`));
+          return;
+        }
+        
+        // Normal mode - JSON input or interactive mode
         if (options.input) {
           // Load from JSON file
           const { readFile } = await import('fs/promises');
